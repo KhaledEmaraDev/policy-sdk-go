@@ -42,6 +42,89 @@ type sigstoreKeylessVerify struct {
 	Annotations map[string]string `json:"annotations,omitempty"`
 }
 
+type KeylessPrefixInfo struct {
+	// Issuer is identifier of the OIDC provider. E.g: https://github.com/login/oauth
+	Issuer string `json:"issuer"`
+	// Valid prefix of the Subject field in the signature used to authenticate
+	// against the OIDC provider. It forms a valid URL on its own, and will get
+	// sanitized by appending `/` to protect against typosquatting
+	UrlPrefix string `json:"url_prefix"`
+}
+
+// sigstorePubKeysVerifyV2 represents the WaPC JSON contract, used for marshalling
+// and unmarshalling payloads to wapc host calls
+type sigstorePubKeysVerifyV2 struct {
+	Type SigstorePubKeyVerifyType `json:"type"`
+	// String pointing to the object (e.g.: `registry.testing.lan/busybox:1.0.0`)
+	Image string `json:"image"`
+	// List of PEM encoded keys that must have been used to sign the OCI object
+	PubKeys []string `json:"pub_keys"`
+	// Annotations that must have been provided by all signers when they signed
+	// the OCI artifact. Optional
+	Annotations map[string]string `json:"annotations,omitempty"`
+}
+
+// sigstoreKeylessVerifyV2 represents the WaPC JSON contract, used for marshalling
+// and unmarshalling payloads to wapc host calls
+type sigstoreKeylessVerifyV2 struct {
+	Type SigstoreKeylessVerifyType `json:"type"`
+	// String pointing to the object (e.g.: `registry.testing.lan/busybox:1.0.0`)
+	Image string `json:"image"`
+	// List of PEM encoded keys that must have been used to sign the OCI object
+	Keyless []KeylessInfo `json:"keyless"`
+	// Annotations that must have been provided by all signers when they signed
+	// the OCI artifact. Optional
+	Annotations map[string]string `json:"annotations,omitempty"`
+}
+
+// sigstoreKeylessVerify represents the WaPC JSON contract, used for marshalling
+// and unmarshalling payloads to wapc host calls
+type sigstoreKeylessPrefixVerifyV2 struct {
+	Type SigstoreKeylessPrefixVerifyType `json:"type"`
+	// String pointing to the object (e.g.: `registry.testing.lan/busybox:1.0.0`)
+	Image string `json:"image"`
+	// List of keyless signatures that must be found
+	KeylessPrefix []KeylessPrefixInfo `json:"keyless_prefix"`
+	// Annotations that must have been provided by all signers when they signed
+	// the OCI artifact. Optional
+	Annotations map[string]string `json:"annotations,omitempty"`
+}
+
+type sigstoreGithubActionsVerifyV2 struct {
+	Type SigstoreGithubActionsVerifyType `json:"type"`
+	// String pointing to the object (e.g.: `registry.testing.lan/busybox:1.0.0`)
+	Image string `json:"image"`
+	// owner of the repository. E.g: octocat
+	Owner string `json:"owner"`
+	// Optional - Repo of the GH Action workflow that signed the artifact. E.g: example-repo
+	Repo string `json:"repo,omitempty"`
+	// Annotations that must have been provided by all signers when they signed
+	// the OCI artifact. Optional
+	Annotations map[string]string `json:"annotations,omitempty"`
+}
+
+type sigstoreCertificateVerify struct {
+	Type SigstoreCertificateVerifyType `json:"type"`
+	// String pointing to the object (e.g.: `registry.testing.lan/busybox:1.0.0`)
+	Image string `json:"image"`
+	// PEM encoded certificate used to verify the signature
+	Certificate string `json:"certificate"`
+	// Optional - the certificate chain that is used to verify the provided
+	// certificate. When not specified, the certificate is assumed to be trusted
+	CertificateChain []string `json:"certificate_chain,omitempty"`
+	// Require the  signature layer to have a Rekor bundle.
+	// Having a Rekor bundle allows further checks to be performed,
+	// like ensuring the signature has been produced during the validity
+	// time frame of the certificate.
+	//
+	// It is recommended to set this value to `true` to have a more secure
+	// verification process.
+	RequireRekorBundle bool `json:"require_rekor_bundle"`
+	// Annotations that must have been provided by all signers when they signed
+	// the OCI artifact. Optional
+	Annotations map[string]string `json:"annotations,omitempty"`
+}
+
 // We don't need to expose that to consumers of the library
 // This is a glorified wrapper needed to unmarshal a string
 // inside of TinyGo. As of release 0.29.0, unmarshal a simple
@@ -105,4 +188,26 @@ type GetResourceRequest struct {
 	// However, making too many requests against the Kubernetes API Server
 	// might cause issues to the cluster
 	DisableCache bool `json:"disable_cache"`
+}
+
+// The encoding of the certificate
+type CertificateEncoding int
+
+// CertificateVerificationRequest holds information about a certificate and
+// a chain to validate it with.
+type CertificateVerificationRequest struct {
+	/// PEM-encoded certificate
+	Cert string `json:"cert"`
+	// list of PEM-encoded certs, ordered by trust usage (intermediates first, root last)
+	// If empty, certificate is assumed trusted
+	CertChain []string `json:"cert_chain,omitempty"`
+	// RFC 3339 time format string, to check expiration against. If None,
+	// certificate is assumed never expired
+	NotAfter string `json:"not_after,omitempty"`
+}
+
+type CertificateVerificationResponse struct {
+	Trusted bool `json:"trusted"`
+	// empty when trusted is true
+	Reason string `json:"reason,omitempty"`
 }
