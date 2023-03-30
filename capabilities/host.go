@@ -91,10 +91,12 @@ func (h *Host) LookupHost(host string) ([]string, error) {
 // * pubKeys: list of PEM encoded keys that must have been used to sign the OCI object
 // * annotations: annotations that must have been provided by all signers when they signed the OCI artifact
 func (h *Host) VerifyPubKeys(image string, pubKeys []string, annotations map[string]string) (VerificationResponse, error) {
-	requestObj := sigstorePubKeysVerify{
-		Image:       image,
-		PubKeys:     pubKeys,
-		Annotations: annotations,
+	requestObj := sigstorePubKeysVerifyRequest{
+		SigstorePubKeysVerify: sigstorePubKeysVerify{
+			Image:       image,
+			PubKeys:     pubKeys,
+			Annotations: annotations,
+		},
 	}
 
 	return h.verify(requestObj, V1)
@@ -106,10 +108,12 @@ func (h *Host) VerifyPubKeys(image string, pubKeys []string, annotations map[str
 // * keyless: list of KeylessInfo pairs, containing Issuer and Subject info from OIDC providers
 // * annotations: annotations that must have been provided by all signers when they signed the OCI artifact
 func (h *Host) VerifyKeyless(image string, keyless []KeylessInfo, annotations map[string]string) (VerificationResponse, error) {
-	requestObj := sigstoreKeylessVerify{
-		Image:       image,
-		Keyless:     keyless,
-		Annotations: annotations,
+	requestObj := sigstoreKeylessVerifyRequest{
+		SigstoreKeylessVerify: sigstoreKeylessVerify{
+			Image:       image,
+			Keyless:     keyless,
+			Annotations: annotations,
+		},
 	}
 
 	return h.verify(requestObj, V1)

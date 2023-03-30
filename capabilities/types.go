@@ -30,6 +30,10 @@ type sigstorePubKeysVerify struct {
 	Annotations map[string]string `json:"annotations,omitempty"`
 }
 
+type sigstorePubKeysVerifyRequest struct {
+	SigstorePubKeysVerify sigstorePubKeysVerify `json:"SigstorePubKeyVerify"`
+}
+
 // sigstoreKeylessVerify represents the WaPC JSON contract, used for marshalling
 // and unmarshalling payloads to wapc host calls
 type sigstoreKeylessVerify struct {
@@ -40,6 +44,10 @@ type sigstoreKeylessVerify struct {
 	// Annotations that must have been provided by all signers when they signed
 	// the OCI artifact. Optional
 	Annotations map[string]string `json:"annotations,omitempty"`
+}
+
+type sigstoreKeylessVerifyRequest struct {
+	SigstoreKeylessVerify sigstoreKeylessVerify `json:"SigstoreKeylessVerify"`
 }
 
 type KeylessPrefixInfo struct {
