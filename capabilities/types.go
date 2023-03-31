@@ -72,9 +72,9 @@ type sigstorePubKeysVerifyV2 struct {
 	Annotations map[string]string `json:"annotations,omitempty"`
 }
 
-// sigstoreKeylessVerifyV2 represents the WaPC JSON contract, used for marshalling
+// sigstoreKeylessVerifyExactV2 represents the WaPC JSON contract, used for marshalling
 // and unmarshalling payloads to wapc host calls
-type sigstoreKeylessVerifyV2 struct {
+type sigstoreKeylessVerifyExactV2 struct {
 	Type SigstoreKeylessVerifyType `json:"type"`
 	// String pointing to the object (e.g.: `registry.testing.lan/busybox:1.0.0`)
 	Image string `json:"image"`

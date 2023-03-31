@@ -140,7 +140,7 @@ func (h *Host) VerifyPubKeysImageV2(image string, pubKeys []string, annotations 
 // * keyless: list of KeylessInfo pairs, containing Issuer and Subject info from OIDC providers
 // * annotations: annotations that must have been provided by all signers when they signed the OCI artifact
 func (h *Host) VerifyKeylessExactMatchV2(image string, keyless []KeylessInfo, annotations map[string]string) (VerificationResponse, error) {
-	requestObj := sigstoreKeylessVerify{
+	requestObj := sigstoreKeylessVerifyExactV2{
 		Image:       image,
 		Keyless:     keyless,
 		Annotations: annotations,
