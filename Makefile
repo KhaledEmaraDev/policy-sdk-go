@@ -1,5 +1,5 @@
 # Run tests
-test: fmt vet
+test: fmt vet generate-mocks
 	go test ./... -coverprofile cover.out
 
 # Run go fmt against code
