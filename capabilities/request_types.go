@@ -47,25 +47,3 @@ func (e CertificateEncoding) MarshalEasyJSON(w *jwriter.Writer) {
 		w.String("Pem")
 	}
 }
-
-// type sigstorePubKeysVerifyRequest struct {
-// 	sigstorePubKeysVerify sigstorePubKeysVerify
-// }
-
-// func (e sigstorePubKeysVerifyRequest) MarshalEasyJSON(w *jwriter.Writer) {
-// 	w.RawByte('{')
-// 	w.RawString("\"SigstorePubKeyVerify\":")
-// 	(e.sigstorePubKeysVerify).MarshalEasyJSON(w)
-// 	w.RawByte('}')
-// }
-
-// type sigstoreKeylessVerifyRequest struct {
-// 	sigstoreKeylessVerify sigstoreKeylessVerify
-// }
-
-// func (e sigstoreKeylessVerifyRequest) MarshalEasyJSON(w *jwriter.Writer) {
-// 	w.RawByte('{')
-// 	w.RawString("\"SigstoreKeylessVerify\":")
-// 	(e.sigstoreKeylessVerify).MarshalEasyJSON(w)
-// 	w.RawByte('}')
-// }
