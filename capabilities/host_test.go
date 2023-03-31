@@ -56,10 +56,10 @@ func TestV2Verify(t *testing.T) {
 			checkIsTrustedFunc: CheckKeylessGithubActionsTrusted,
 		},
 		"Certificate": {
-			request: sigstoreCertificateVerify{
+			request: sigstoreCertificateVerifyV2{
 				Image:              "image",
-				Certificate:        "certificate",
-				CertificateChain:   make([]string, 0),
+				Certificate:        []rune("certificate"),
+				CertificateChain:   make([][]rune, 0),
 				RequireRekorBundle: true,
 				Annotations:        map[string]string{},
 			},
@@ -139,8 +139,14 @@ func CheckKeylessGithubActionsTrusted(host Host, request easyjson.Marshaler) (bo
 }
 
 func CheckCertificateTrusted(host Host, request easyjson.Marshaler) (bool, error) {
-	requestCertificate := request.(sigstoreCertificateVerify)
-	res, err := host.VerifyCertificateV2(requestCertificate.Image, requestCertificate.Certificate, requestCertificate.CertificateChain, requestCertificate.RequireRekorBundle, requestCertificate.Annotations)
+	requestCertificate := request.(sigstoreCertificateVerifyV2)
+
+	chain := make([]string, len(requestCertificate.CertificateChain))
+	for i, c := range requestCertificate.CertificateChain {
+		chain[i] = string(c)
+	}
+
+	res, err := host.VerifyCertificateV2(requestCertificate.Image, string(requestCertificate.Certificate), chain, requestCertificate.RequireRekorBundle, requestCertificate.Annotations)
 	if err != nil {
 		return false, err
 	}

@@ -199,16 +199,15 @@ func (h *Host) VerifyKeylessGithubActionsV2(image string, owner string, repo str
 //     verification process.
 //   - `annotations` - annotations that must have been provided by all signers when they signed the OCI artifact
 func (h *Host) VerifyCertificateV2(image string, certificate string, certificateChain []string, requireRekorBundle bool, annotations map[string]string) (VerificationResponse, error) {
-	// chain := make([][]rune, len(certificateChain))
-	// for i, c := range certificateChain {
-	// 	chain[i] = []rune(c)
-	// }
-	// Certificate:        []rune(certificate),
+	chain := make([][]rune, len(certificateChain))
+	for i, c := range certificateChain {
+		chain[i] = []rune(c)
+	}
 
-	requestObj := sigstoreCertificateVerify{
+	requestObj := sigstoreCertificateVerifyV2{
 		Image:              image,
-		Certificate:        certificate,
-		CertificateChain:   certificateChain,
+		Certificate:        []rune(certificate),
+		CertificateChain:   chain,
 		RequireRekorBundle: requireRekorBundle,
 		Annotations:        annotations,
 	}
@@ -301,7 +300,7 @@ func (h *Host) GetResource(req GetResourceRequest) ([]byte, error) {
 //     (intermediates first, root last). If empty, certificate is assumed trusted.
 //   - not_after: string in RFC 3339 time format, to check expiration against.
 //     If None, certificate is assumed never expired.
-func (h *Host) VerifyCert(cert string, certChain []string, notAfter string) (bool, error) {
+func (h *Host) VerifyCert(cert Certificate, certChain []Certificate, notAfter string) (bool, error) {
 	requestObj := CertificateVerificationRequest{
 		Cert:      cert,
 		CertChain: certChain,

@@ -85,7 +85,7 @@ type sigstoreKeylessVerifyExactV2 struct {
 	Annotations map[string]string `json:"annotations,omitempty"`
 }
 
-// sigstoreKeylessVerify represents the WaPC JSON contract, used for marshalling
+// sigstoreKeylessVerifyV2 represents the WaPC JSON contract, used for marshalling
 // and unmarshalling payloads to wapc host calls
 type sigstoreKeylessPrefixVerifyV2 struct {
 	Type SigstoreKeylessPrefixVerifyType `json:"type"`
@@ -111,15 +111,15 @@ type sigstoreGithubActionsVerifyV2 struct {
 	Annotations map[string]string `json:"annotations,omitempty"`
 }
 
-type sigstoreCertificateVerify struct {
+type sigstoreCertificateVerifyV2 struct {
 	Type SigstoreCertificateVerifyType `json:"type"`
 	// String pointing to the object (e.g.: `registry.testing.lan/busybox:1.0.0`)
 	Image string `json:"image"`
 	// PEM encoded certificate used to verify the signature
-	Certificate string `json:"certificate"`
+	Certificate []rune `json:"certificate"`
 	// Optional - the certificate chain that is used to verify the provided
 	// certificate. When not specified, the certificate is assumed to be trusted
-	CertificateChain []string `json:"certificate_chain,omitempty"`
+	CertificateChain [][]rune `json:"certificate_chain,omitempty"`
 	// Require the  signature layer to have a Rekor bundle.
 	// Having a Rekor bundle allows further checks to be performed,
 	// like ensuring the signature has been produced during the validity
@@ -198,17 +198,22 @@ type GetResourceRequest struct {
 	DisableCache bool `json:"disable_cache"`
 }
 
-// The encoding of the certificate
-type CertificateEncoding int
+// A x509 certificate
+type Certificate struct {
+	// Which encoding is used by the certificate
+	Encoding CertificateEncoding `json:"encoding"`
+	// Actual certificate
+	Data []rune `json:"data"`
+}
 
 // CertificateVerificationRequest holds information about a certificate and
 // a chain to validate it with.
 type CertificateVerificationRequest struct {
 	/// PEM-encoded certificate
-	Cert string `json:"cert"`
+	Cert Certificate `json:"cert"`
 	// list of PEM-encoded certs, ordered by trust usage (intermediates first, root last)
 	// If empty, certificate is assumed trusted
-	CertChain []string `json:"cert_chain,omitempty"`
+	CertChain []Certificate `json:"cert_chain,omitempty"`
 	// RFC 3339 time format string, to check expiration against. If None,
 	// certificate is assumed never expired
 	NotAfter string `json:"not_after,omitempty"`
