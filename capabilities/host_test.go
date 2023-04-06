@@ -1,6 +1,7 @@
 package capabilities
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/golang/mock/gomock"
@@ -285,5 +286,71 @@ func TestV1IsCertificateTrusted(t *testing.T) {
 	}
 	if !res {
 		t.Fatalf("expected trusted image, got untrusted")
+	}
+}
+
+func TestV1ManifestDigest(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	m := mock_capabilities.NewMockWapcClient(ctrl)
+
+	digestResponse := OciManifestResponse{
+		Digest: "myhash",
+	}
+	digestPayload, err := json.Marshal(digestResponse)
+	if err != nil {
+		t.Fatalf("cannot serialize response object: %v", err)
+	}
+
+	expectedPayload := []byte{34, 109, 121, 105, 109, 97, 103, 101, 58, 108, 97, 116, 101, 115, 116, 34}
+
+	m.
+		EXPECT().
+		HostCall("kubewarden", "oci", "v1/manifest_digest", expectedPayload).
+		Return(digestPayload, nil).
+		Times(1)
+
+	host := Host{
+		Client: m,
+	}
+
+	res, err := host.GetOCIManifestDigest("myimage:latest")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if res != digestResponse.Digest {
+		t.Fatalf("unexpected error")
+	}
+}
+
+func TestV1DnsLookupHost(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	m := mock_capabilities.NewMockWapcClient(ctrl)
+
+	lookupResponse := LookupHostResponse{
+		Ips: []string{"127.0.0.1"},
+	}
+	lookupPayload, err := json.Marshal(lookupResponse)
+	if err != nil {
+		t.Fatalf("cannot serialize response object: %v", err)
+	}
+
+	expectedPayload := []byte{34, 108, 111, 99, 97, 108, 104, 111, 115, 116, 34}
+
+	m.
+		EXPECT().
+		HostCall("kubewarden", "net", "v1/dns_lookup_host", expectedPayload).
+		Return(lookupPayload, nil).
+		Times(1)
+
+	host := Host{
+		Client: m,
+	}
+
+	res, err := host.LookupHost("localhost")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if res[0] != lookupResponse.Ips[0] {
+		t.Fatalf("unexpected error")
 	}
 }
