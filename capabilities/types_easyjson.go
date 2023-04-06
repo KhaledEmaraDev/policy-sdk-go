@@ -68,11 +68,7 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities(in *jlexer
 				in.Skip()
 			} else {
 				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.Annotations = make(map[string]string)
-				} else {
-					out.Annotations = nil
-				}
+				out.Annotations = make(map[string]string)
 				for !in.IsDelim('}') {
 					key := string(in.String())
 					in.WantColon()
@@ -123,10 +119,12 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities(out *jwrit
 			out.RawByte(']')
 		}
 	}
-	if len(in.Annotations) != 0 {
+	{
 		const prefix string = ",\"annotations\":"
 		out.RawString(prefix)
-		{
+		if in.Annotations == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
+			out.RawString(`null`)
+		} else {
 			out.RawByte('{')
 			v5First := true
 			for v5Name, v5Value := range in.Annotations {
@@ -318,11 +316,7 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities3(in *jlexe
 				in.Skip()
 			} else {
 				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.Annotations = make(map[string]string)
-				} else {
-					out.Annotations = nil
-				}
+				out.Annotations = make(map[string]string)
 				for !in.IsDelim('}') {
 					key := string(in.String())
 					in.WantColon()
@@ -368,10 +362,12 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities3(out *jwri
 			out.RawByte(']')
 		}
 	}
-	if len(in.Annotations) != 0 {
+	{
 		const prefix string = ",\"annotations\":"
 		out.RawString(prefix)
-		{
+		if in.Annotations == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
+			out.RawString(`null`)
+		} else {
 			out.RawByte('{')
 			v10First := true
 			for v10Name, v10Value := range in.Annotations {
@@ -530,11 +526,7 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities5(in *jlexe
 				in.Skip()
 			} else {
 				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.Annotations = make(map[string]string)
-				} else {
-					out.Annotations = nil
-				}
+				out.Annotations = make(map[string]string)
 				for !in.IsDelim('}') {
 					key := string(in.String())
 					in.WantColon()
@@ -585,10 +577,12 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities5(out *jwri
 			out.RawByte(']')
 		}
 	}
-	if len(in.Annotations) != 0 {
+	{
 		const prefix string = ",\"annotations\":"
 		out.RawString(prefix)
-		{
+		if in.Annotations == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
+			out.RawString(`null`)
+		} else {
 			out.RawByte('{')
 			v15First := true
 			for v15Name, v15Value := range in.Annotations {
@@ -714,11 +708,7 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities7(in *jlexe
 				in.Skip()
 			} else {
 				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.Annotations = make(map[string]string)
-				} else {
-					out.Annotations = nil
-				}
+				out.Annotations = make(map[string]string)
 				for !in.IsDelim('}') {
 					key := string(in.String())
 					in.WantColon()
@@ -764,10 +754,12 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities7(out *jwri
 			out.RawByte(']')
 		}
 	}
-	if len(in.Annotations) != 0 {
+	{
 		const prefix string = ",\"annotations\":"
 		out.RawString(prefix)
-		{
+		if in.Annotations == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
+			out.RawString(`null`)
+		} else {
 			out.RawByte('{')
 			v20First := true
 			for v20Name, v20Value := range in.Annotations {
@@ -860,11 +852,7 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities8(in *jlexe
 				in.Skip()
 			} else {
 				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.Annotations = make(map[string]string)
-				} else {
-					out.Annotations = nil
-				}
+				out.Annotations = make(map[string]string)
 				for !in.IsDelim('}') {
 					key := string(in.String())
 					in.WantColon()
@@ -915,10 +903,12 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities8(out *jwri
 			out.RawByte(']')
 		}
 	}
-	if len(in.Annotations) != 0 {
+	{
 		const prefix string = ",\"annotations\":"
 		out.RawString(prefix)
-		{
+		if in.Annotations == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
+			out.RawString(`null`)
+		} else {
 			out.RawByte('{')
 			v25First := true
 			for v25Name, v25Value := range in.Annotations {
@@ -1027,11 +1017,7 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities10(in *jlex
 				in.Skip()
 			} else {
 				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.Annotations = make(map[string]string)
-				} else {
-					out.Annotations = nil
-				}
+				out.Annotations = make(map[string]string)
 				for !in.IsDelim('}') {
 					key := string(in.String())
 					in.WantColon()
@@ -1071,15 +1057,17 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities10(out *jwr
 		out.RawString(prefix)
 		out.String(string(in.Owner))
 	}
-	if in.Repo != "" {
+	{
 		const prefix string = ",\"repo\":"
 		out.RawString(prefix)
 		out.String(string(in.Repo))
 	}
-	if len(in.Annotations) != 0 {
+	{
 		const prefix string = ",\"annotations\":"
 		out.RawString(prefix)
-		{
+		if in.Annotations == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
+			out.RawString(`null`)
+		} else {
 			out.RawByte('{')
 			v27First := true
 			for v27Name, v27Value := range in.Annotations {
@@ -1253,11 +1241,7 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities12(in *jlex
 				in.Skip()
 			} else {
 				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.Annotations = make(map[string]string)
-				} else {
-					out.Annotations = nil
-				}
+				out.Annotations = make(map[string]string)
 				for !in.IsDelim('}') {
 					key := string(in.String())
 					in.WantColon()
@@ -1308,10 +1292,12 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities12(out *jwr
 			out.RawByte(']')
 		}
 	}
-	if len(in.CertificateChain) != 0 {
+	{
 		const prefix string = ",\"certificate_chain\":"
 		out.RawString(prefix)
-		{
+		if in.CertificateChain == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
+			out.RawString("null")
+		} else {
 			out.RawByte('[')
 			for v34, v35 := range in.CertificateChain {
 				if v34 > 0 {
@@ -1338,10 +1324,12 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities12(out *jwr
 		out.RawString(prefix)
 		out.Bool(bool(in.RequireRekorBundle))
 	}
-	if len(in.Annotations) != 0 {
+	{
 		const prefix string = ",\"annotations\":"
 		out.RawString(prefix)
-		{
+		if in.Annotations == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
+			out.RawString(`null`)
+		} else {
 			out.RawByte('{')
 			v38First := true
 			for v38Name, v38Value := range in.Annotations {
@@ -2214,10 +2202,12 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities23(out *jwr
 		out.RawString(prefix[1:])
 		(in.Cert).MarshalEasyJSON(out)
 	}
-	if len(in.CertChain) != 0 {
+	{
 		const prefix string = ",\"cert_chain\":"
 		out.RawString(prefix)
-		{
+		if in.CertChain == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
+			out.RawString("null")
+		} else {
 			out.RawByte('[')
 			for v43, v44 := range in.CertChain {
 				if v43 > 0 {
@@ -2228,7 +2218,7 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities23(out *jwr
 			out.RawByte(']')
 		}
 	}
-	if in.NotAfter != "" {
+	{
 		const prefix string = ",\"not_after\":"
 		out.RawString(prefix)
 		out.String(string(in.NotAfter))

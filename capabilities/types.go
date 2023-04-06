@@ -27,7 +27,7 @@ type sigstorePubKeysVerify struct {
 	PubKeys []string `json:"pub_keys"`
 	// Annotations that must have been provided by all signers when they signed
 	// the OCI artifact. Optional
-	Annotations map[string]string `json:"annotations,omitempty"`
+	Annotations map[string]string `json:"annotations"`
 }
 
 type sigstorePubKeysVerifyRequest struct {
@@ -43,7 +43,7 @@ type sigstoreKeylessVerify struct {
 	Keyless []KeylessInfo `json:"keyless"`
 	// Annotations that must have been provided by all signers when they signed
 	// the OCI artifact. Optional
-	Annotations map[string]string `json:"annotations,omitempty"`
+	Annotations map[string]string `json:"annotations"`
 }
 
 type sigstoreKeylessVerifyRequest struct {
@@ -69,7 +69,7 @@ type sigstorePubKeysVerifyV2 struct {
 	PubKeys []string `json:"pub_keys"`
 	// Annotations that must have been provided by all signers when they signed
 	// the OCI artifact. Optional
-	Annotations map[string]string `json:"annotations,omitempty"`
+	Annotations map[string]string `json:"annotations"`
 }
 
 // sigstoreKeylessVerifyExactV2 represents the WaPC JSON contract, used for marshalling
@@ -82,7 +82,7 @@ type sigstoreKeylessVerifyExactV2 struct {
 	Keyless []KeylessInfo `json:"keyless"`
 	// Annotations that must have been provided by all signers when they signed
 	// the OCI artifact. Optional
-	Annotations map[string]string `json:"annotations,omitempty"`
+	Annotations map[string]string `json:"annotations"`
 }
 
 // sigstoreKeylessVerifyV2 represents the WaPC JSON contract, used for marshalling
@@ -95,7 +95,7 @@ type sigstoreKeylessPrefixVerifyV2 struct {
 	KeylessPrefix []KeylessPrefixInfo `json:"keyless_prefix"`
 	// Annotations that must have been provided by all signers when they signed
 	// the OCI artifact. Optional
-	Annotations map[string]string `json:"annotations,omitempty"`
+	Annotations map[string]string `json:"annotations"`
 }
 
 type sigstoreGithubActionsVerifyV2 struct {
@@ -105,10 +105,10 @@ type sigstoreGithubActionsVerifyV2 struct {
 	// owner of the repository. E.g: octocat
 	Owner string `json:"owner"`
 	// Optional - Repo of the GH Action workflow that signed the artifact. E.g: example-repo
-	Repo string `json:"repo,omitempty"`
+	Repo string `json:"repo"`
 	// Annotations that must have been provided by all signers when they signed
 	// the OCI artifact. Optional
-	Annotations map[string]string `json:"annotations,omitempty"`
+	Annotations map[string]string `json:"annotations"`
 }
 
 type sigstoreCertificateVerifyV2 struct {
@@ -119,7 +119,7 @@ type sigstoreCertificateVerifyV2 struct {
 	Certificate []rune `json:"certificate"`
 	// Optional - the certificate chain that is used to verify the provided
 	// certificate. When not specified, the certificate is assumed to be trusted
-	CertificateChain [][]rune `json:"certificate_chain,omitempty"`
+	CertificateChain [][]rune `json:"certificate_chain"`
 	// Require the  signature layer to have a Rekor bundle.
 	// Having a Rekor bundle allows further checks to be performed,
 	// like ensuring the signature has been produced during the validity
@@ -130,7 +130,7 @@ type sigstoreCertificateVerifyV2 struct {
 	RequireRekorBundle bool `json:"require_rekor_bundle"`
 	// Annotations that must have been provided by all signers when they signed
 	// the OCI artifact. Optional
-	Annotations map[string]string `json:"annotations,omitempty"`
+	Annotations map[string]string `json:"annotations"`
 }
 
 // We don't need to expose that to consumers of the library
@@ -213,10 +213,10 @@ type CertificateVerificationRequest struct {
 	Cert Certificate `json:"cert"`
 	// list of PEM-encoded certs, ordered by trust usage (intermediates first, root last)
 	// If empty, certificate is assumed trusted
-	CertChain []Certificate `json:"cert_chain,omitempty"`
+	CertChain []Certificate `json:"cert_chain"`
 	// RFC 3339 time format string, to check expiration against. If None,
 	// certificate is assumed never expired
-	NotAfter string `json:"not_after,omitempty"`
+	NotAfter string `json:"not_after"`
 }
 
 type CertificateVerificationResponse struct {
