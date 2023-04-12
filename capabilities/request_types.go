@@ -55,7 +55,7 @@ func (rs *RuneString) MarshalEasyJSON(w *jwriter.Writer) {
 }
 
 func (rs *RuneString) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	var runes []rune
+	var runes []rune = nil
 
 	if l.IsNull() {
 		l.Skip()
