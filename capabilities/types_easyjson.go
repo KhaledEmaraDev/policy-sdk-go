@@ -1168,28 +1168,7 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities12(in *jlex
 		case "image":
 			out.Image = string(in.String())
 		case "certificate":
-			if in.IsNull() {
-				in.Skip()
-				out.Certificate = nil
-			} else {
-				in.Delim('[')
-				if out.Certificate == nil {
-					if !in.IsDelim(']') {
-						out.Certificate = make([]int32, 0, 16)
-					} else {
-						out.Certificate = []int32{}
-					}
-				} else {
-					out.Certificate = (out.Certificate)[:0]
-				}
-				for !in.IsDelim(']') {
-					var v28 int32
-					v28 = int32(in.Int32())
-					out.Certificate = append(out.Certificate, v28)
-					in.WantComma()
-				}
-				in.Delim(']')
-			}
+			(out.Certificate).UnmarshalEasyJSON(in)
 		case "certificate_chain":
 			if in.IsNull() {
 				in.Skip()
@@ -1198,38 +1177,17 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities12(in *jlex
 				in.Delim('[')
 				if out.CertificateChain == nil {
 					if !in.IsDelim(']') {
-						out.CertificateChain = make([][]int32, 0, 2)
+						out.CertificateChain = make([]RuneString, 0, 4)
 					} else {
-						out.CertificateChain = [][]int32{}
+						out.CertificateChain = []RuneString{}
 					}
 				} else {
 					out.CertificateChain = (out.CertificateChain)[:0]
 				}
 				for !in.IsDelim(']') {
-					var v29 []int32
-					if in.IsNull() {
-						in.Skip()
-						v29 = nil
-					} else {
-						in.Delim('[')
-						if v29 == nil {
-							if !in.IsDelim(']') {
-								v29 = make([]int32, 0, 16)
-							} else {
-								v29 = []int32{}
-							}
-						} else {
-							v29 = (v29)[:0]
-						}
-						for !in.IsDelim(']') {
-							var v30 int32
-							v30 = int32(in.Int32())
-							v29 = append(v29, v30)
-							in.WantComma()
-						}
-						in.Delim(']')
-					}
-					out.CertificateChain = append(out.CertificateChain, v29)
+					var v28 RuneString
+					(v28).UnmarshalEasyJSON(in)
+					out.CertificateChain = append(out.CertificateChain, v28)
 					in.WantComma()
 				}
 				in.Delim(']')
@@ -1245,9 +1203,9 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities12(in *jlex
 				for !in.IsDelim('}') {
 					key := string(in.String())
 					in.WantColon()
-					var v31 string
-					v31 = string(in.String())
-					(out.Annotations)[key] = v31
+					var v29 string
+					v29 = string(in.String())
+					(out.Annotations)[key] = v29
 					in.WantComma()
 				}
 				in.Delim('}')
@@ -1279,18 +1237,7 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities12(out *jwr
 	{
 		const prefix string = ",\"certificate\":"
 		out.RawString(prefix)
-		if in.Certificate == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
-			out.RawString("null")
-		} else {
-			out.RawByte('[')
-			for v32, v33 := range in.Certificate {
-				if v32 > 0 {
-					out.RawByte(',')
-				}
-				out.Int32(int32(v33))
-			}
-			out.RawByte(']')
-		}
+		(in.Certificate).MarshalEasyJSON(out)
 	}
 	{
 		const prefix string = ",\"certificate_chain\":"
@@ -1299,22 +1246,11 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities12(out *jwr
 			out.RawString("null")
 		} else {
 			out.RawByte('[')
-			for v34, v35 := range in.CertificateChain {
-				if v34 > 0 {
+			for v30, v31 := range in.CertificateChain {
+				if v30 > 0 {
 					out.RawByte(',')
 				}
-				if v35 == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
-					out.RawString("null")
-				} else {
-					out.RawByte('[')
-					for v36, v37 := range v35 {
-						if v36 > 0 {
-							out.RawByte(',')
-						}
-						out.Int32(int32(v37))
-					}
-					out.RawByte(']')
-				}
+				(v31).MarshalEasyJSON(out)
 			}
 			out.RawByte(']')
 		}
@@ -1331,16 +1267,16 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities12(out *jwr
 			out.RawString(`null`)
 		} else {
 			out.RawByte('{')
-			v38First := true
-			for v38Name, v38Value := range in.Annotations {
-				if v38First {
-					v38First = false
+			v32First := true
+			for v32Name, v32Value := range in.Annotations {
+				if v32First {
+					v32First = false
 				} else {
 					out.RawByte(',')
 				}
-				out.String(string(v38Name))
+				out.String(string(v32Name))
 				out.RawByte(':')
-				out.String(string(v38Value))
+				out.String(string(v32Value))
 			}
 			out.RawByte('}')
 		}
@@ -1580,9 +1516,9 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities16(in *jlex
 					out.Ips = (out.Ips)[:0]
 				}
 				for !in.IsDelim(']') {
-					var v39 string
-					v39 = string(in.String())
-					out.Ips = append(out.Ips, v39)
+					var v33 string
+					v33 = string(in.String())
+					out.Ips = append(out.Ips, v33)
 					in.WantComma()
 				}
 				in.Delim(']')
@@ -1608,11 +1544,11 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities16(out *jwr
 			out.RawString("null")
 		} else {
 			out.RawByte('[')
-			for v40, v41 := range in.Ips {
-				if v40 > 0 {
+			for v34, v35 := range in.Ips {
+				if v34 > 0 {
 					out.RawByte(',')
 				}
-				out.String(string(v41))
+				out.String(string(v35))
 			}
 			out.RawByte(']')
 		}
@@ -2174,9 +2110,9 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities23(in *jlex
 					out.CertChain = (out.CertChain)[:0]
 				}
 				for !in.IsDelim(']') {
-					var v42 Certificate
-					(v42).UnmarshalEasyJSON(in)
-					out.CertChain = append(out.CertChain, v42)
+					var v36 Certificate
+					(v36).UnmarshalEasyJSON(in)
+					out.CertChain = append(out.CertChain, v36)
 					in.WantComma()
 				}
 				in.Delim(']')
@@ -2209,11 +2145,11 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities23(out *jwr
 			out.RawString("null")
 		} else {
 			out.RawByte('[')
-			for v43, v44 := range in.CertChain {
-				if v43 > 0 {
+			for v37, v38 := range in.CertChain {
+				if v37 > 0 {
 					out.RawByte(',')
 				}
-				(v44).MarshalEasyJSON(out)
+				(v38).MarshalEasyJSON(out)
 			}
 			out.RawByte(']')
 		}
@@ -2271,28 +2207,7 @@ func easyjson6601e8cdDecodeGithubComKubewardenPolicySdkGoCapabilities24(in *jlex
 		case "encoding":
 			out.Encoding = CertificateEncoding(in.Int())
 		case "data":
-			if in.IsNull() {
-				in.Skip()
-				out.Data = nil
-			} else {
-				in.Delim('[')
-				if out.Data == nil {
-					if !in.IsDelim(']') {
-						out.Data = make([]int32, 0, 16)
-					} else {
-						out.Data = []int32{}
-					}
-				} else {
-					out.Data = (out.Data)[:0]
-				}
-				for !in.IsDelim(']') {
-					var v45 int32
-					v45 = int32(in.Int32())
-					out.Data = append(out.Data, v45)
-					in.WantComma()
-				}
-				in.Delim(']')
-			}
+			(out.Data).UnmarshalEasyJSON(in)
 		default:
 			in.SkipRecursive()
 		}
@@ -2315,18 +2230,7 @@ func easyjson6601e8cdEncodeGithubComKubewardenPolicySdkGoCapabilities24(out *jwr
 	{
 		const prefix string = ",\"data\":"
 		out.RawString(prefix)
-		if in.Data == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
-			out.RawString("null")
-		} else {
-			out.RawByte('[')
-			for v46, v47 := range in.Data {
-				if v46 > 0 {
-					out.RawByte(',')
-				}
-				out.Int32(int32(v47))
-			}
-			out.RawByte(']')
-		}
+		(in.Data).MarshalEasyJSON(out)
 	}
 	out.RawByte('}')
 }

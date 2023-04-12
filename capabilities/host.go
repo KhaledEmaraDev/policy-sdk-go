@@ -198,16 +198,11 @@ func (h *Host) VerifyKeylessGithubActionsV2(image string, owner string, repo str
 //     It is recommended to set this value to `true` to have a more secure
 //     verification process.
 //   - `annotations` - annotations that must have been provided by all signers when they signed the OCI artifact
-func (h *Host) VerifyCertificateV2(image string, certificate string, certificateChain []string, requireRekorBundle bool, annotations map[string]string) (VerificationResponse, error) {
-	chain := make([][]rune, len(certificateChain))
-	for i, c := range certificateChain {
-		chain[i] = []rune(c)
-	}
-
+func (h *Host) VerifyCertificateV2(image string, certificate RuneString, certificateChain []RuneString, requireRekorBundle bool, annotations map[string]string) (VerificationResponse, error) {
 	requestObj := sigstoreCertificateVerifyV2{
 		Image:              image,
-		Certificate:        []rune(certificate),
-		CertificateChain:   chain,
+		Certificate:        certificate,
+		CertificateChain:   certificateChain,
 		RequireRekorBundle: requireRekorBundle,
 		Annotations:        annotations,
 	}

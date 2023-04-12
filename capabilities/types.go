@@ -116,10 +116,10 @@ type sigstoreCertificateVerifyV2 struct {
 	// String pointing to the object (e.g.: `registry.testing.lan/busybox:1.0.0`)
 	Image string `json:"image"`
 	// PEM encoded certificate used to verify the signature
-	Certificate []rune `json:"certificate"`
+	Certificate RuneString `json:"certificate"`
 	// Optional - the certificate chain that is used to verify the provided
 	// certificate. When not specified, the certificate is assumed to be trusted
-	CertificateChain [][]rune `json:"certificate_chain"`
+	CertificateChain []RuneString `json:"certificate_chain"`
 	// Require the  signature layer to have a Rekor bundle.
 	// Having a Rekor bundle allows further checks to be performed,
 	// like ensuring the signature has been produced during the validity
@@ -203,7 +203,7 @@ type Certificate struct {
 	// Which encoding is used by the certificate
 	Encoding CertificateEncoding `json:"encoding"`
 	// Actual certificate
-	Data []rune `json:"data"`
+	Data RuneString `json:"data"`
 }
 
 // CertificateVerificationRequest holds information about a certificate and

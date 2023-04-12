@@ -64,8 +64,8 @@ func TestV2Verify(t *testing.T) {
 		"Certificate": {
 			request: sigstoreCertificateVerifyV2{
 				Image:              "myimage:latest",
-				Certificate:        []rune("certificate0"),
-				CertificateChain:   [][]rune{[]rune("certificate1"), []rune("certificate2")},
+				Certificate:        "certificate0",
+				CertificateChain:   []RuneString{"certificate1", "certificate2"},
 				RequireRekorBundle: false,
 				Annotations:        nil,
 			},
@@ -143,12 +143,7 @@ func CheckKeylessGithubActionsTrusted(host Host, request easyjson.Marshaler) (bo
 func CheckCertificateTrusted(host Host, request easyjson.Marshaler) (bool, error) {
 	requestCertificate := request.(sigstoreCertificateVerifyV2)
 
-	chain := make([]string, len(requestCertificate.CertificateChain))
-	for i, c := range requestCertificate.CertificateChain {
-		chain[i] = string(c)
-	}
-
-	res, err := host.VerifyCertificateV2(requestCertificate.Image, string(requestCertificate.Certificate), chain, requestCertificate.RequireRekorBundle, requestCertificate.Annotations)
+	res, err := host.VerifyCertificateV2(requestCertificate.Image, requestCertificate.Certificate, requestCertificate.CertificateChain, requestCertificate.RequireRekorBundle, requestCertificate.Annotations)
 	if err != nil {
 		return false, err
 	}
@@ -248,14 +243,14 @@ func TestV1IsCertificateTrusted(t *testing.T) {
 
 	cert := Certificate{
 		Encoding: Pem,
-		Data:     []rune(`certificate0`),
+		Data:     "certificate0",
 	}
 	chain := []Certificate{{
 		Encoding: Pem,
-		Data:     []rune(`certificate1`),
+		Data:     "certificate1",
 	}, {
 		Encoding: Pem,
-		Data:     []rune(`certificate2`),
+		Data:     "certificate2",
 	}}
 	not_after := "2021-10-01T00:00:00Z"
 
