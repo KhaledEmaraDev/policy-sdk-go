@@ -72,8 +72,7 @@ func (rs *RuneString) UnmarshalEasyJSON(l *jlexer.Lexer) {
 			runes = (runes)[:0]
 		}
 		for !l.IsDelim(']') {
-			var v45 int32
-			v45 = int32(l.Int32())
+			var v45 int32 = int32(l.Int32())
 			runes = append(runes, v45)
 			l.WantComma()
 		}
